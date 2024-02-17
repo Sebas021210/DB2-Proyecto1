@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Accordion from 'react-bootstrap/Accordion';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import Rating from '@mui/material/Rating';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import Autocomplete from '@mui/material/Autocomplete';
 import './cards.css';
 import { Grid } from '@mui/material';
 
@@ -54,41 +60,6 @@ function MyVerticallyCenteredModal(props) {
                                     Comida3
                                 </Card.Body>
                             </Card>
-                            <Card>
-                                <Card.Body>
-                                    Comida4
-                                </Card.Body>
-                            </Card>
-                            <Card>
-                                <Card.Body>
-                                    Comida5
-                                </Card.Body>
-                            </Card>
-                            <Card>
-                                <Card.Body>
-                                    Comida6
-                                </Card.Body>
-                            </Card>
-                            <Card>
-                                <Card.Body>
-                                    Comida7
-                                </Card.Body>
-                            </Card>
-                            <Card>
-                                <Card.Body>
-                                    Comida8
-                                </Card.Body>
-                            </Card>
-                            <Card>
-                                <Card.Body>
-                                    Comida9
-                                </Card.Body>
-                            </Card>
-                            <Card>
-                                <Card.Body>
-                                    Comida10
-                                </Card.Body>
-                            </Card>
                         </div>
                         <br></br>
                         <h4>Rating</h4>
@@ -101,9 +72,72 @@ function MyVerticallyCenteredModal(props) {
                         />
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button style={{ height: "54px", width: "100px", background: "white", color: "black", borderColor: "#DEE2E6" }}>
-                            Reserva
-                        </Button>
+                        <Accordion>
+                            <Accordion.Item eventKey="0">
+                                <Accordion.Header>Reserva</Accordion.Header>
+                                <Accordion.Body>
+                                    <Form>
+                                        <Form.Group className="mb-3" controlId="formGridComents">
+                                            <TextField fullWidth label="Nombre" id="fullWidth" />
+                                        </Form.Group>
+
+                                        <Row className="mb-3">
+                                            <Form.Group as={Col} controlId="formGridPhone">
+                                                <TextField
+                                                    id="outlined-basic"
+                                                    label="Número de teléfono"
+                                                    variant="outlined"
+                                                    InputProps={{
+                                                        startAdornment: <InputAdornment position="start">+502</InputAdornment>
+                                                    }}
+                                                />
+                                            </Form.Group>
+
+                                            <Form.Group as={Col} controlId="formGridPersons">
+                                                <Autocomplete
+                                                    disablePortal
+                                                    id="combo-box-demo"
+                                                    options={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+                                                    renderInput={(params) => <TextField {...params} label="Personas" />}
+                                                />
+                                            </Form.Group>
+                                        </Row>
+
+                                        <Row className="mb-3">
+                                            <Form.Group as={Col} controlId="formGridDate">
+                                                <TextField
+                                                    id="date"
+                                                    label="Fecha"
+                                                    type="date"
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
+                                                />
+                                            </Form.Group>
+
+                                            <Form.Group as={Col} controlId="formGridHour">
+                                                <TextField
+                                                    id="time"
+                                                    label="Hora"
+                                                    type="time"
+                                                    InputLabelProps={{
+                                                        shrink: true,
+                                                    }}
+                                                />
+                                            </Form.Group>
+                                        </Row>
+
+                                        <Form.Group className="mb-3" controlId="formGridComents">
+                                            <TextField fullWidth label="Comentarios" id="fullWidth" />
+                                        </Form.Group>
+
+                                        <Button style={{ height: "54px", width: "100px", background: "white", color: "black", borderColor: "#DEE2E6" }} type="submit">
+                                            Reservar
+                                        </Button>
+                                    </Form>
+                                </Accordion.Body>
+                            </Accordion.Item>
+                        </Accordion>
                         <Accordion>
                             <Accordion.Item eventKey="0">
                                 <Accordion.Header>Reseñas</Accordion.Header>
