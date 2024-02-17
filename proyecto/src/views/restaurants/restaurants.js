@@ -5,9 +5,16 @@ import "./restaurants.css";
 function Restaurants() {
     return (
         <div className="Restaurants">
-            <h1>¡Hola, mundo!</h1>
-            <h1>Soy restaurants</h1>
-            <Card />
+            <div className="title">
+                <h1>Restaurants</h1>
+            </div>
+            <div className="cards">
+                <Card />
+                <Card />
+                <Card />
+                <Card />
+                <Card />
+            </div>
         </div>
     );
 }
