@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Accordion from 'react-bootstrap/Accordion';
+import Rating from '@mui/material/Rating';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 import './cards.css';
 import { Grid } from '@mui/material';
 
@@ -22,7 +25,7 @@ function MyVerticallyCenteredModal(props) {
                     />
                 </Grid>
                 <Grid item xs={12} sm={7}>
-                    <Modal.Header>
+                    <Modal.Header closeButton>
                         <Modal.Title id="contained-modal-title-vcenter">
                             <h1>Tre Fratelli</h1>
                         </Modal.Title>
@@ -35,23 +38,94 @@ function MyVerticallyCenteredModal(props) {
                             consectetur ac, vestibulum at eros.
                         </p>
                         <h4>Menu</h4>
-                        <p>
-                            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-                            consectetur ac, vestibulum at eros.
-                        </p>
+                        <div className='menu' style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+                            <Card>
+                                <Card.Body>
+                                    Comida1
+                                </Card.Body>
+                            </Card>
+                            <Card>
+                                <Card.Body>
+                                    Comida2
+                                </Card.Body>
+                            </Card>
+                            <Card>
+                                <Card.Body>
+                                    Comida3
+                                </Card.Body>
+                            </Card>
+                            <Card>
+                                <Card.Body>
+                                    Comida4
+                                </Card.Body>
+                            </Card>
+                            <Card>
+                                <Card.Body>
+                                    Comida5
+                                </Card.Body>
+                            </Card>
+                            <Card>
+                                <Card.Body>
+                                    Comida6
+                                </Card.Body>
+                            </Card>
+                            <Card>
+                                <Card.Body>
+                                    Comida7
+                                </Card.Body>
+                            </Card>
+                            <Card>
+                                <Card.Body>
+                                    Comida8
+                                </Card.Body>
+                            </Card>
+                            <Card>
+                                <Card.Body>
+                                    Comida9
+                                </Card.Body>
+                            </Card>
+                            <Card>
+                                <Card.Body>
+                                    Comida10
+                                </Card.Body>
+                            </Card>
+                        </div>
+                        <br></br>
                         <h4>Rating</h4>
-                        <p>
-                            ...
-                        </p>
+                        <Rating
+                            name="customized-empty"
+                            value={4.5}
+                            readOnly
+                            precision={0.5}
+                            emptyIcon={<StarBorderIcon fontSize="inherit" />}
+                        />
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button style={{background: "white", color: "black", borderColor: "black"}}>
+                        <Button style={{ height: "54px", width: "100px", background: "white", color: "black", borderColor: "#DEE2E6" }}>
                             Reserva
                         </Button>
-                        <Button style={{background: "white", color: "black", borderColor: "black"}}>
-                            Reseñas
-                        </Button>
+                        <Accordion>
+                            <Accordion.Item eventKey="0">
+                                <Accordion.Header>Reseñas</Accordion.Header>
+                                <Accordion.Body>
+                                    <p>
+                                        Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+                                        dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
+                                        consectetur ac, vestibulum at eros.
+                                    </p>
+                                    <p>
+                                        Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+                                        dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
+                                        consectetur ac, vestibulum at eros.
+                                    </p>
+                                    <p>
+                                        Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+                                        dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
+                                        consectetur ac, vestibulum at eros.
+                                    </p>
+                                </Accordion.Body>
+                            </Accordion.Item>
+                        </Accordion>
                     </Modal.Footer>
                 </Grid>
             </Grid>
