@@ -9,11 +9,13 @@ function Restaurants() {
                 <h1>Restaurants</h1>
             </div>
             <div className="cards">
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
+                <div className="componentCard">
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                    <Card />
+                </div>
             </div>
         </div>
     );
