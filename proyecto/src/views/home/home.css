@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Protest+Riot&display=swap');
+
+.Home {
+    height: 100vh; 
+    display: flex;
+    flex-direction: column;
+}
+
+.Home-header {
+    height: 30%;
+    flex: 0 0 30%; 
+    background-color: #0A0908;
+}
+
+.Home-header h1 {
+    color: #EAE0D5;
+    font-family: "Pacifico", cursive;
+    font-size: 150px;
+    text-align: center;
+    margin-top: 4%;
+
+}
+
+.Home-content {
+    flex-grow: 1;
+    background-color: #EAE0D5;
+}
+
+.Home-content h1 {
+    color: #0A0908;
+    font-family: "Pacifico", cursive;
+    font-size: 150px;
+    text-align: center;
+}
+
+
+#Buscador {
+    background: url(https://cdn0.iconfinder.com/data/icons/slim-square-icons-basics/100/basics-19-32.png) no-repeat 0px 5px;
+    background-size: 24px;
+    width: 500px;
+    border: transparent;
+    border-bottom: solid 3px black;
+    padding: 10px 10px 10px 30px;
+    outline: none;
+    margin-top: 3%;
+    margin-left: 38%;
+    font-weight: bold;
+    color: black;
+  }
+
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto; /* Esto alinea los botones al final */
+    padding: 0 20px; /* Añade espacio a los lados */
+    background-color: #EAE0D5;
+}
+
+.button-container button {
+    flex: 1; /* Los botones se expanden igualmente */
+    margin: 0 5px; /* Espacio entre los botones */
+    border-radius: 5px; /* Bordes redondeados */
+    background-color: #0A0908; /* Cambia el color de fondo */
+    color: white; /* Cambia el color del texto */
+    font-size: 20px; /* Aumenta el tamaño del texto */
+    padding: 15px 30px; /* Aumenta el espacio interno */
+    border: none; /* Elimina el borde */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    margin-bottom: 0.5%;
+    font-family: "Pacifico", cursive;
+    font-size: 25px;
+}
+
+.Home-Login Login {
+    background-color: #0A0908;
+    width: 25%;
+    align-items: right;
+}
+
+.Home-Login {
+    background-color: #0A0908;
+    width: 100%;
+    align-items: right;
+}
