@@ -55,6 +55,7 @@
     justify-content: space-between;
     margin-top: auto; /* Esto alinea los botones al final */
     padding: 0 20px; /* Añade espacio a los lados */
+    background-color: #EAE0D5;
 }
 
 .button-container button {
@@ -70,4 +71,16 @@
     margin-bottom: 0.5%;
     font-family: "Pacifico", cursive;
     font-size: 25px;
+}
+
+.Home-Login Login {
+    background-color: #0A0908;
+    width: 25%;
+    align-items: right;
+}
+
+.Home-Login {
+    background-color: #0A0908;
+    width: 100%;
+    align-items: right;
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./home.css";
+import Login from "../../components/Log_in/login";
 
 function Home() {
     const navigate = useNavigate();
@@ -19,6 +20,9 @@ function Home() {
 
     return (
         <div className="Home">
+            <div className="Home-Login">
+                <Login/>
+            </div>
             <div className="Home-header">
                 <h1>Taste</h1>
             </div>
