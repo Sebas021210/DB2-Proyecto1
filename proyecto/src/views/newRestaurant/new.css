@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Protest+Riot&display=swap');
+
+.New {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.titleNew {
+    height: 20%;
+    width: 100%;
+    flex: 0 0 20%;
+    background-color: #0A0908;
+}
+
+.titleNew h1 {
+    color: white;
+    font-family: "Pacifico", cursive;
+    font-size: 80px;
+    text-align: center;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: 100%;
+}
+
+.BodyNew {
+    height: 100%;
+    background-color: #EAE0D5;
+}
+
+.formNew {
+    width: 50%;
+    height: 77%;
+    position: fixed;
+    top: 62%;
+    left: 50%;
+    background-color: white;
+    border-top-right-radius: 30px;
+    border-top-left-radius: 30px;
+    transform: translate(-50%, -50%);
+}
+
+.contentForm{
+    display: flex;
+    justify-content: center;
+    margin-top: 5%;
+    height: 100%;
+    width: 100%;
+}

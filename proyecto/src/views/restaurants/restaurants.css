@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Protest+Riot&display=swap');
+
+.Restaurants{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    height: 20%;
+    width: 100%;
+    flex: 0 0 20%; 
+    background-color: #0A0908;
+}
+
+.title h1 {
+    color: #EAE0D5;
+    font-family: "Pacifico", cursive;
+    font-size: 80px;
+    text-align: center;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: 100%;
+}
+
+.cards{
+    height: 100%;
+    background-color: #EAE0D5;
+}
+
+.componentCard{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 40px;
+    gap: 20px;
+}
