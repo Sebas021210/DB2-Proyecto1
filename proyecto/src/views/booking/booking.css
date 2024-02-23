@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Protest+Riot&display=swap');
+
+.Booking {
+    height: 100vh; 
+    display: flex;
+    flex-direction: column;
+}
+
+.Booking-header {
+    height: 30%;
+    flex: 0 0 30%; 
+    background-color: #0A0908;
+}
+
+.Booking-header h1 {
+    color: white;
+    font-family: "Pacifico", cursive;
+    font-size: 100px;
+    text-align: center;
+    margin-top: 4%;
+
+}
+
+.Booking-content {
+    flex-grow: 1;
+    background-color: #EAE0D5;
+}
+
+.Booking-title-restaurant {
+    margin-top: 2%;
+    margin-left: 2%;
+    color: #0A0908;
+    font-family: "Pacifico", cursive;
+    font-size: 50px;
+
+}   
+
+.Booking-reservas {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan en filas */
+    margin-top: 2%;
+    margin-left: 2%;
+    margin-right: 2%;
+    padding: 10px;
+    justify-content: flex-start; /* Alinea los elementos al inicio del contenedor */
+}
+
+.Reservas {
+    flex: 0 0 calc(33.33% - 20px); /* Calcula el ancho de cada reserva para que ocupe aproximadamente un tercio del contenedor con un espacio entre ellas */
+    margin-right: 20px; /* Espacio entre las reservas */
+    margin-bottom: 20px; /* Espacio entre las filas de reservas */
+}
+
