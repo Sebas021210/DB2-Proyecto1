@@ -16,6 +16,8 @@ import { Grid } from '@mui/material';
 
 function MyVerticallyCenteredModal(props) {
     const [menu, setMenu] = useState([])
+    const [rating, setRating] = useState([]);
+    const ratingValue = props.rating;
 
     useEffect(() => {
         fetch("http://localhost:5050/plates?id_restaurante=" + props.id)
@@ -23,7 +25,11 @@ function MyVerticallyCenteredModal(props) {
             .then((data) => setMenu(data));
     }, [props.id]);
 
-    const ratingValue = props.rating;
+    useEffect(() => {
+        fetch("http://localhost:5050/threeBestRatings?id_restaurante=" + props.id)
+            .then((response) => response.json())
+            .then((data) => setRating(data));
+    }, [props.id]);
 
     return (
         <Modal
@@ -36,7 +42,7 @@ function MyVerticallyCenteredModal(props) {
                 <Grid item xs={12} sm={5}>
                     <img
                         src="https://bde04f90fcbcc7b99af9-a4cf3e88ec567f5b6c6819f1d482f77f.ssl.cf1.rackcdn.com/16_773_r_0.jpg?v=1752"
-                        alt={props.name}
+                        alt="restaurante"
                         style={{ width: "100%", height: "100%", objectFit: "cover" }}
                     />
                 </Grid>
@@ -65,7 +71,7 @@ function MyVerticallyCenteredModal(props) {
                         ) : (
                             <p>Menú no disponible...</p>
                         )}
-                        <br></br>
+                        <br />
                         <h4>Rating</h4>
                         <Rating
                             name="customized-empty"
@@ -146,16 +152,17 @@ function MyVerticallyCenteredModal(props) {
                             <Accordion.Item eventKey="0">
                                 <Accordion.Header>Reseñas</Accordion.Header>
                                 <Accordion.Body>
-                                    <p>
-                                        Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                                        dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-                                        consectetur ac, vestibulum at eros.
-                                    </p>
-                                    <p>
-                                        Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                                        dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-                                        consectetur ac, vestibulum at eros.
-                                    </p>
+                                    {rating.length > 0 ? (
+                                        <div className='reseña' >
+                                            {rating.map((rating) => (
+                                                <p key={rating._id}>
+                                                    {rating.fecha}
+                                                </p>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <p>Reseñas no disponibles...</p>
+                                    )}
                                     <p>
                                         Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
                                         dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
