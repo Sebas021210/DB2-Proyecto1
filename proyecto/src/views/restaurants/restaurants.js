@@ -28,6 +28,8 @@ function Restaurants() {
                                 desc={restaurante.descripcion}
                                 rating={restaurante.rating}
                                 id={restaurante.id}
+                                latitud={restaurante.ubicacion.latitud}
+                                longitud={restaurante.ubicacion.longitud}
                             />
                         </div>
                     ))}

@@ -11,6 +11,10 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Autocomplete from '@mui/material/Autocomplete';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import { Icon } from 'leaflet';
+import "leaflet/dist/leaflet.css";
 import './cards.css';
 import { Grid } from '@mui/material';
 
@@ -18,6 +22,11 @@ function MyVerticallyCenteredModal(props) {
     const [menu, setMenu] = useState([])
     const [rating, setRating] = useState([]);
     const ratingValue = props.rating;
+    
+    const markerIcon = new Icon({
+        iconUrl: require('leaflet/dist/images/marker-icon.png'),
+        iconSize: [25, 41]
+    });
 
     useEffect(() => {
         fetch("http://localhost:5050/plates?id_restaurante=" + props.id)
@@ -53,11 +62,10 @@ function MyVerticallyCenteredModal(props) {
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <h4>Informacion</h4>
                         <p>
                             {props.des}
                         </p>
-                        <h4>Menu</h4>
+                        <h4>Menú</h4>
                         {menu.length > 0 ? (
                             <div className='menu' style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
                                 {menu.map((platillo) => (
@@ -71,6 +79,22 @@ function MyVerticallyCenteredModal(props) {
                         ) : (
                             <p>Menú no disponible...</p>
                         )}
+                        <br />
+                        <h4>Ubicación</h4>
+                        <div style={{ height: "200px" }}>
+                            <MapContainer center={[props.latitud, props.longitud]} zoom={12} scrollWheelZoom={false} style={{ height: "200px", width: "420px" }} >
+                                <TileLayer
+                                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                />
+                                <Marker position={[props.latitud, props.longitud]} icon={markerIcon}>
+                                    <Popup>
+                                        {props.name}
+                                    </Popup>
+                                    <LocationOnIcon color="primary" />
+                                </Marker>
+                            </MapContainer>
+                        </div>
                         <br />
                         <h4>Rating</h4>
                         <Rating
@@ -213,6 +237,8 @@ function Cards(props) {
                 des={props.desc}
                 rating={props.rating}
                 id={props.id}
+                latitud={props.latitud}
+                longitud={props.longitud}
             />
         </>
     );
