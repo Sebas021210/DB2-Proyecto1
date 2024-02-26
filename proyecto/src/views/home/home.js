@@ -2,9 +2,11 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./home.css";
 import Login from "../../components/Log_in/login";
+import { useUser } from "../../global/id_rol";
 
 function Home() {
     const navigate = useNavigate();
+    const { id, rol } = useUser(); // Obtén id y rol desde el contexto global
 
     const handleBooking = () => {
         navigate("/booking");
@@ -31,9 +33,17 @@ function Home() {
                 <input type="search" placeholder="Busca tu restaurante" id="Buscador" />
             </div>
             <div className="button-container">
-                <button onClick={handleNew}>Nuevo Restaurante</button>
+                {rol === 0 && (
+                    <>
+                        <button onClick={handleNew}>Nuevo Restaurante</button>
+                        <button onClick={handleBooking}>Reservas</button>
+                    </>
+                )}
+                {rol === 1 && (
+                    <button onClick={handleBooking}>Reservas</button>
+                )}
+                {rol === 2 && null}
                 <button onClick={handleRestaurant}>Todos los restaurantes</button>
-                <button onClick={handleBooking}>Reservas</button>
             </div>
         </div>
     );
