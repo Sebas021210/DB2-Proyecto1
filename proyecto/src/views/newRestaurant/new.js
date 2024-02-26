@@ -8,14 +8,52 @@ import Autocomplete from '@mui/material/Autocomplete';
 import InputAdornment from '@mui/material/InputAdornment';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 import DescriptionIcon from '@mui/icons-material/Description';
-import AddLocationIcon from '@mui/icons-material/AddLocation';
+import ImageIcon from '@mui/icons-material/Image';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
-import NumbersIcon from '@mui/icons-material/Numbers';
 import ShareLocationIcon from '@mui/icons-material/ShareLocation';
 import "./new.css";
 
 function New() {
     const [platillos, setPlatillos] = useState([]);
+    const [newRestaurant, setNewRestaurant] = useState({
+        nombre: "",
+        descripcion: "",
+        img: "",
+        ubicacion: {
+            latitud: "",
+            longitud: ""
+        },
+        menu: []
+    });
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            const response = await fetch('http://tu-api.com/restaurante', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newRestaurant),
+            });
+
+            if (response.ok) {
+                console.log('Restaurante agregado exitosamente');
+            } else {
+                console.error('Error al agregar restaurante');
+            }
+        } catch (error) {
+            console.error('Error al realizar la solicitud:', error);
+        }
+    }
+
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setNewRestaurant((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    }
 
     return (
         <div className="New">
@@ -27,7 +65,7 @@ function New() {
                     <div className="contentForm">
                         <Form style={{ width: "85%" }}>
                             <Form.Group className="mb-3" controlId="formGridName">
-                                <TextField fullWidth label="Nombre del restaurante" id="fullWidth"
+                                <TextField fullWidth label="Nombre del restaurante" id="fullWidth" name="nombre"
                                     InputProps={{
                                         startAdornment: (
                                             <InputAdornment position="start">
@@ -45,6 +83,7 @@ function New() {
                                     multiline
                                     rows={3}
                                     fullWidth
+                                    name="descripcion"
                                     InputProps={{
                                         startAdornment: (
                                             <InputAdornment position="start">
@@ -55,12 +94,12 @@ function New() {
                                 />
                             </Form.Group>
 
-                            <Form.Group className="mb-3" controlId="formGridAddress">
-                                <TextField fullWidth label="Dirección del restaurante" id="fullWidth"
+                            <Form.Group className="mb-3" controlId="formGridImage">
+                                <TextField fullWidth label="Imagen del restaurante" id="fullWidth" name="img"
                                     InputProps={{
                                         startAdornment: (
                                             <InputAdornment position="start">
-                                                <AddLocationIcon />
+                                                <ImageIcon />
                                             </InputAdornment>
                                         )
                                     }}
@@ -73,6 +112,7 @@ function New() {
                                         id="outlined-basic"
                                         label="Latitud"
                                         variant="outlined"
+                                        name="latitud"
                                         InputProps={{
                                             startAdornment: (
                                                 <InputAdornment position="start">
@@ -88,6 +128,7 @@ function New() {
                                         id="outlined-basic"
                                         label="Longitud"
                                         variant="outlined"
+                                        name="longitud"
                                         InputProps={{
                                             startAdornment: (
                                                 <InputAdornment position="start">
@@ -105,8 +146,9 @@ function New() {
                                     id="tags-outlined"
                                     options={platillos}
                                     freeSolo
-                                    getOptionLabel={(option) => option.title || option} 
+                                    getOptionLabel={(option) => option.title || option}
                                     filterSelectedOptions
+                                    name="menu"
                                     onChange={(event, newValue) => setPlatillos(newValue.map(item => ({ title: item })))}
                                     InputProps={{
                                         startAdornment: (
@@ -122,19 +164,6 @@ function New() {
                                             placeholder="Platillos del restaurante"
                                         />
                                     )}
-                                />
-                            </Form.Group>
-
-
-                            <Form.Group className="mb-3" controlId="formGridNum">
-                                <TextField fullWidth label="Número de registro" id="fullWidth"
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <NumbersIcon />
-                                            </InputAdornment>
-                                        )
-                                    }}
                                 />
                             </Form.Group>
 

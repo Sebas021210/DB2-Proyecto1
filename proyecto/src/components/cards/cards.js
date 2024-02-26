@@ -22,7 +22,7 @@ function MyVerticallyCenteredModal(props) {
     const [menu, setMenu] = useState([])
     const [rating, setRating] = useState([]);
     const ratingValue = props.rating;
-    
+
     const markerIcon = new Icon({
         iconUrl: require('leaflet/dist/images/marker-icon.png'),
         iconSize: [25, 41]
@@ -39,6 +39,78 @@ function MyVerticallyCenteredModal(props) {
             .then((response) => response.json())
             .then((data) => setRating(data));
     }, [props.id]);
+
+    const [reservaData, setReservaData] = useState({
+        nombre: "",
+        telefono: "",
+        personas: "",
+        fecha: "",
+        hora: "",
+        comentarios: ""
+    });
+
+    const [reseñaData, setReseñaData] = useState({
+        comentario: "",
+        calificacion: ""
+    });
+
+    const handleReservaChange = (event) => {
+        const { name, value } = event.target;
+        setReservaData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    }
+
+    const handleReseñaChange = (event) => {
+        const { name, value } = event.target;
+        setReseñaData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    }
+
+    const handleSubmitReserva = async (event) => {
+        event.preventDefault();
+        try {
+            const response = await fetch('http://localhost:5050/reservation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(reservaData),
+            });
+
+            if (response.ok) {
+                console.log('Reservación exitosa');
+            } else {
+                console.error('Error al realizar la reservación');
+            }
+        } catch (error) {
+            console.error('Error al realizar la solicitud:', error);
+        }
+    }
+
+    const handleSubmitReseña = async (event) => {
+        event.preventDefault();
+        try {
+            const response = await fetch('http://localhost:5050/rating', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(reseñaData),
+            });
+
+            if (response.ok) {
+                console.log('Reseña publicada exitosamente');
+            } else {
+                console.error('Error al publicar reseña');
+            }
+        } catch (error) {
+            console.error('Error al realizar la solicitud:', error);
+        }
+    }
 
     return (
         <Modal
@@ -112,7 +184,7 @@ function MyVerticallyCenteredModal(props) {
                                 <Accordion.Body>
                                     <Form>
                                         <Form.Group className="mb-3" controlId="formGridComents">
-                                            <TextField fullWidth label="Nombre" id="fullWidth" />
+                                            <TextField fullWidth label="Nombre" id="fullWidth" name='nombre' />
                                         </Form.Group>
 
                                         <Row className="mb-3">
@@ -121,6 +193,7 @@ function MyVerticallyCenteredModal(props) {
                                                     id="outlined-basic"
                                                     label="Número de teléfono"
                                                     variant="outlined"
+                                                    name='telefono'
                                                     InputProps={{
                                                         startAdornment: <InputAdornment position="start">+502</InputAdornment>
                                                     }}
@@ -131,6 +204,7 @@ function MyVerticallyCenteredModal(props) {
                                                 <Autocomplete
                                                     disablePortal
                                                     id="combo-box-demo"
+                                                    name='personas'
                                                     options={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
                                                     renderInput={(params) => <TextField {...params} label="Personas" />}
                                                 />
@@ -143,6 +217,7 @@ function MyVerticallyCenteredModal(props) {
                                                     id="date"
                                                     label="Fecha"
                                                     type="date"
+                                                    name='fecha'
                                                     InputLabelProps={{
                                                         shrink: true,
                                                     }}
@@ -154,6 +229,7 @@ function MyVerticallyCenteredModal(props) {
                                                     id="time"
                                                     label="Hora"
                                                     type="time"
+                                                    name='hora'
                                                     InputLabelProps={{
                                                         shrink: true,
                                                     }}
@@ -162,7 +238,7 @@ function MyVerticallyCenteredModal(props) {
                                         </Row>
 
                                         <Form.Group className="mb-3" controlId="formGridComents">
-                                            <TextField fullWidth label="Comentarios" id="fullWidth" />
+                                            <TextField fullWidth label="Comentarios" id="fullWidth" name='comentarios' />
                                         </Form.Group>
 
                                         <Button style={{ height: "54px", width: "100px", background: "white", color: "black", borderColor: "#DEE2E6" }} type="submit">
@@ -192,6 +268,35 @@ function MyVerticallyCenteredModal(props) {
                                         dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
                                         consectetur ac, vestibulum at eros.
                                     </p>
+                                </Accordion.Body>
+                            </Accordion.Item>
+                        </Accordion>
+                        <Accordion>
+                            <Accordion.Item eventKey="0">
+                                <Accordion.Header>Publicar reseña</Accordion.Header>
+                                <Accordion.Body>
+                                    <Form>
+                                        <Form.Group className="mb-3" controlId="formGridComents">
+                                            <TextField fullWidth label="Comentario" id="fullWidth" name='comentario' />
+                                        </Form.Group>
+
+                                        <Form.Group as={Col} controlId="formGridRating">
+                                            <Autocomplete
+                                                disablePortal
+                                                id="combo-box-demo"
+                                                name='calificacion'
+                                                sx={{ width: 380 }}
+                                                options={[1, 2, 3, 4, 5]}
+                                                renderInput={(params) => <TextField {...params} label="Calificación" />}
+                                            />
+                                        </Form.Group>
+
+                                        <br />
+
+                                        <Button style={{ height: "54px", width: "100px", background: "white", color: "black", borderColor: "#DEE2E6" }} type="submit">
+                                            Publicar
+                                        </Button>
+                                    </Form>
                                 </Accordion.Body>
                             </Accordion.Item>
                         </Accordion>
