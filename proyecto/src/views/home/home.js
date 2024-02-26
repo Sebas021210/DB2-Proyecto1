@@ -45,11 +45,6 @@ function Home() {
                 {rol === 2 && null}
                 <button onClick={handleRestaurant}>Todos los restaurantes</button>
             </div>
-            {/* Imprime las variables globales */}
-            <div>
-                <p>Id: {id}</p>
-                <p>Rol: {rol}</p>
-            </div>
         </div>
     );
 }
