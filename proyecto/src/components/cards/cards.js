@@ -15,6 +15,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import { Icon } from 'leaflet';
 import "leaflet/dist/leaflet.css";
+import { useUser } from '../../global/id_rol.js'
 import './cards.css';
 import { Grid } from '@mui/material';
 
@@ -22,6 +23,10 @@ function MyVerticallyCenteredModal(props) {
     const [menu, setMenu] = useState([])
     const [rating, setRating] = useState([]);
     const ratingValue = props.rating;
+    const { id } = useUser();
+    const AccordionReserva = id !== null;
+    const AccordionReseña = id !== null;
+    const MensajeLogin = !AccordionReserva && !AccordionReseña;
 
     const markerIcon = new Icon({
         iconUrl: require('leaflet/dist/images/marker-icon.png'),
@@ -178,76 +183,86 @@ function MyVerticallyCenteredModal(props) {
                         />
                     </Modal.Body>
                     <Modal.Footer>
-                        <Accordion>
-                            <Accordion.Item eventKey="0">
-                                <Accordion.Header>Reserva</Accordion.Header>
-                                <Accordion.Body>
-                                    <Form>
-                                        <Form.Group className="mb-3" controlId="formGridComents">
-                                            <TextField fullWidth label="Nombre" id="fullWidth" name='nombre' />
-                                        </Form.Group>
+                        {MensajeLogin && (
+                            <div>
+                                <p style={{ fontSize: "12px", color: "grey", marginRight: "50px" }}>Para realizar una reserva o publicar una reseña, <br />por favor inicie sesión.</p>
+                            </div>
+                        )}
 
-                                        <Row className="mb-3">
-                                            <Form.Group as={Col} controlId="formGridPhone">
-                                                <TextField
-                                                    id="outlined-basic"
-                                                    label="Número de teléfono"
-                                                    variant="outlined"
-                                                    name='telefono'
-                                                    InputProps={{
-                                                        startAdornment: <InputAdornment position="start">+502</InputAdornment>
-                                                    }}
-                                                />
+                        {AccordionReserva && (
+                            <Accordion>
+                                <Accordion.Item eventKey="0">
+                                    <Accordion.Header>Reserva</Accordion.Header>
+                                    <Accordion.Body>
+                                        <Form>
+                                            <Form.Group className="mb-3" controlId="formGridComents">
+                                                <TextField fullWidth label="Nombre" id="fullWidth" name='nombre' />
                                             </Form.Group>
 
-                                            <Form.Group as={Col} controlId="formGridPersons">
-                                                <Autocomplete
-                                                    disablePortal
-                                                    id="combo-box-demo"
-                                                    name='personas'
-                                                    options={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
-                                                    renderInput={(params) => <TextField {...params} label="Personas" />}
-                                                />
+                                            <Row className="mb-3">
+                                                <Form.Group as={Col} controlId="formGridPhone">
+                                                    <TextField
+                                                        id="outlined-basic"
+                                                        label="Número de teléfono"
+                                                        variant="outlined"
+                                                        name='telefono'
+                                                        InputProps={{
+                                                            startAdornment: <InputAdornment position="start">+502</InputAdornment>
+                                                        }}
+                                                    />
+                                                </Form.Group>
+
+                                                <Form.Group as={Col} controlId="formGridPersons">
+                                                    <Autocomplete
+                                                        disablePortal
+                                                        id="combo-box-demo"
+                                                        name='personas'
+                                                        options={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+                                                        renderInput={(params) => <TextField {...params} label="Personas" />}
+                                                    />
+                                                </Form.Group>
+                                            </Row>
+
+                                            <Row className="mb-3">
+                                                <Form.Group as={Col} controlId="formGridDate">
+                                                    <TextField
+                                                        id="date"
+                                                        label="Fecha"
+                                                        type="date"
+                                                        name='fecha'
+                                                        InputLabelProps={{
+                                                            shrink: true,
+                                                        }}
+                                                    />
+                                                </Form.Group>
+
+                                                <Form.Group as={Col} controlId="formGridHour">
+                                                    <TextField
+                                                        id="time"
+                                                        label="Hora"
+                                                        type="time"
+                                                        name='hora'
+                                                        InputLabelProps={{
+                                                            shrink: true,
+                                                        }}
+                                                    />
+                                                </Form.Group>
+                                            </Row>
+
+                                            <Form.Group className="mb-3" controlId="formGridComents">
+                                                <TextField fullWidth label="Comentarios" id="fullWidth" name='comentarios' />
                                             </Form.Group>
-                                        </Row>
 
-                                        <Row className="mb-3">
-                                            <Form.Group as={Col} controlId="formGridDate">
-                                                <TextField
-                                                    id="date"
-                                                    label="Fecha"
-                                                    type="date"
-                                                    name='fecha'
-                                                    InputLabelProps={{
-                                                        shrink: true,
-                                                    }}
-                                                />
-                                            </Form.Group>
+                                            <Button style={{ height: "54px", width: "100px", background: "white", color: "black", borderColor: "#DEE2E6" }} type="submit">
+                                                Reservar
+                                            </Button>
+                                        </Form>
+                                    </Accordion.Body>
+                                </Accordion.Item>
+                            </Accordion>
 
-                                            <Form.Group as={Col} controlId="formGridHour">
-                                                <TextField
-                                                    id="time"
-                                                    label="Hora"
-                                                    type="time"
-                                                    name='hora'
-                                                    InputLabelProps={{
-                                                        shrink: true,
-                                                    }}
-                                                />
-                                            </Form.Group>
-                                        </Row>
+                        )}
 
-                                        <Form.Group className="mb-3" controlId="formGridComents">
-                                            <TextField fullWidth label="Comentarios" id="fullWidth" name='comentarios' />
-                                        </Form.Group>
-
-                                        <Button style={{ height: "54px", width: "100px", background: "white", color: "black", borderColor: "#DEE2E6" }} type="submit">
-                                            Reservar
-                                        </Button>
-                                    </Form>
-                                </Accordion.Body>
-                            </Accordion.Item>
-                        </Accordion>
                         <Accordion>
                             <Accordion.Item eventKey="0">
                                 <Accordion.Header>Reseñas</Accordion.Header>
@@ -271,35 +286,39 @@ function MyVerticallyCenteredModal(props) {
                                 </Accordion.Body>
                             </Accordion.Item>
                         </Accordion>
-                        <Accordion>
-                            <Accordion.Item eventKey="0">
-                                <Accordion.Header>Publicar reseña</Accordion.Header>
-                                <Accordion.Body>
-                                    <Form>
-                                        <Form.Group className="mb-3" controlId="formGridComents">
-                                            <TextField fullWidth label="Comentario" id="fullWidth" name='comentario' />
-                                        </Form.Group>
 
-                                        <Form.Group as={Col} controlId="formGridRating">
-                                            <Autocomplete
-                                                disablePortal
-                                                id="combo-box-demo"
-                                                name='calificacion'
-                                                sx={{ width: 380 }}
-                                                options={[1, 2, 3, 4, 5]}
-                                                renderInput={(params) => <TextField {...params} label="Calificación" />}
-                                            />
-                                        </Form.Group>
+                        {AccordionReseña && (
+                            <Accordion>
+                                <Accordion.Item eventKey="0">
+                                    <Accordion.Header>Publicar reseña</Accordion.Header>
+                                    <Accordion.Body>
+                                        <Form>
+                                            <Form.Group className="mb-3" controlId="formGridComents">
+                                                <TextField fullWidth label="Comentario" id="fullWidth" name='comentario' />
+                                            </Form.Group>
 
-                                        <br />
+                                            <Form.Group as={Col} controlId="formGridRating">
+                                                <Autocomplete
+                                                    disablePortal
+                                                    id="combo-box-demo"
+                                                    name='calificacion'
+                                                    sx={{ width: 380 }}
+                                                    options={[1, 2, 3, 4, 5]}
+                                                    renderInput={(params) => <TextField {...params} label="Calificación" />}
+                                                />
+                                            </Form.Group>
 
-                                        <Button style={{ height: "54px", width: "100px", background: "white", color: "black", borderColor: "#DEE2E6" }} type="submit">
-                                            Publicar
-                                        </Button>
-                                    </Form>
-                                </Accordion.Body>
-                            </Accordion.Item>
-                        </Accordion>
+                                            <br />
+
+                                            <Button style={{ height: "54px", width: "100px", background: "white", color: "black", borderColor: "#DEE2E6" }} type="submit">
+                                                Publicar
+                                            </Button>
+                                        </Form>
+                                    </Accordion.Body>
+                                </Accordion.Item>
+                            </Accordion>
+                        )}
+
                     </Modal.Footer>
                 </Grid>
             </Grid>
