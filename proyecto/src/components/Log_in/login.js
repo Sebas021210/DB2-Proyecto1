@@ -3,12 +3,15 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { AiOutlineUser } from "react-icons/ai";
-import NewUser from './newUser';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 
 function Login() {
   const [show, setShow] = useState(false);
   const [showNewUser, setShowNewUser] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleClose = () => {
     setShow(false);
@@ -17,6 +20,37 @@ function Login() {
 
   const handleShow = () => setShow(true);
   const handleShowNewUser = () => setShowNewUser(true);
+
+  const handleLogin = async () => {
+    try {
+      const response = await fetch('http://localhost:5050/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ correo: email, contraseña: password })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setLoggedIn(true);
+        setUser(data);
+        console.log('User details:', data);
+      } else {
+        console.log('Login failed');
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
+    }
+  };
+
+  const handleLogout = () => {
+    setLoggedIn(false);
+    setUser(null);
+    setEmail('');
+    setPassword('');
+  };
 
   return (
     <>
@@ -30,36 +64,56 @@ function Login() {
       </Button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Log In</Modal.Title>
+          <Modal.Title>{loggedIn ? `Welcome, ${user ? user.correo : ''}` : 'Log In'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {!showNewUser && (
+          {!showNewUser && !loggedIn && (
             <>
-              <FloatingLabel controlId="floatingInput" label="Email address" className="mb-3">
-                <Form.Control type="email" placeholder="name@example.com" />
+              <FloatingLabel controlId="email" label="Email address" className="mb-3">
+                <Form.Control 
+                  type="email" 
+                  placeholder="name@example.com" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </FloatingLabel>
-              <FloatingLabel controlId="floatingPassword" label="Password">
-                <Form.Control type="password" placeholder="Password" />
+              <FloatingLabel controlId="password" label="Password">
+                <Form.Control 
+                  type="password" 
+                  placeholder="Password" 
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </FloatingLabel>
             </>
           )}
-          {showNewUser && <NewUser onClose={handleClose} />}
         </Modal.Body>
-        {!showNewUser && (
+        {!showNewUser && !loggedIn && (
           <Modal.Footer>
             <Button
               variant="primary"
               onClick={handleShowNewUser}
               style={{ background: 'black', color: '#EAE0D5', border: 'black' }}
             >
-              Crear Nuevo Usuario
+              Create New User
             </Button>
             <Button
               variant="primary"
-              onClick={handleClose}
+              onClick={handleLogin}
               style={{ background: '#EAE0D5', color: 'black', border: '#EAE0D5' }}
             >
-              LogIn
+              Log In
+            </Button>
+          </Modal.Footer>
+        )}
+        {loggedIn && (
+          <Modal.Footer>
+            <Button
+              variant="primary"
+              onClick={handleLogout}
+              style={{ background: '#EAE0D5', color: 'black', border: '#EAE0D5' }}
+            >
+              Log Out
             </Button>
           </Modal.Footer>
         )}

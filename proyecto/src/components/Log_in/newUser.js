@@ -43,7 +43,7 @@ function NewUser() {
       </Row>
 
 
-      <Button variant="primary" type="submit">
+      <Button variant="primary" type="submit" style={{color: 'white', background: 'black'}}>
         Submit
       </Button>
     </Form>
