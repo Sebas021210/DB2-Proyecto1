@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { AiOutlineUser } from "react-icons/ai";
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import { useUser } from '../../global/id_rol.js';
 
 function Login() {
   const [show, setShow] = useState(false);
@@ -12,6 +13,7 @@ function Login() {
   const [user, setUser] = useState(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { setId, setRol } = useUser();
 
   const handleClose = () => {
     setShow(false);
@@ -35,7 +37,9 @@ function Login() {
 
       if (response.ok) {
         setLoggedIn(true);
-        setUser(data);
+        setUser(data); // Aquí establece el usuario con los datos recibidos
+        setId(data._id); // Establece el id en el contexto global
+        setRol(data.rol); // Establece el rol en el contexto global
         console.log('User details:', data);
       } else {
         console.log('Login failed');
@@ -50,6 +54,10 @@ function Login() {
     setUser(null);
     setEmail('');
     setPassword('');
+    // Establece el id en el contexto global como nulo para cerrar sesión
+    setId(null);
+    // Establece el rol en el contexto global como nulo para cerrar sesión
+    setRol(null);
   };
 
   return (
