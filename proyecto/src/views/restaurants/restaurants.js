@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Card from "../../components/cards/cards";
 import "./restaurants.css";
 
 function Restaurants() {
+    const [restaurants, setRestaurants] = useState([]);
+
+    useEffect(() => {
+        fetch("http://localhost:5050/restaurants")
+            .then((response) => response.json())
+            .then((data) => setRestaurants(data));
+    }, []);
+
+    const limitedRestaurants = restaurants.slice(0, 50);
+
     return (
         <div className="Restaurants">
             <div className="title">
@@ -10,11 +20,19 @@ function Restaurants() {
             </div>
             <div className="cards">
                 <div className="componentCard">
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
+                    {limitedRestaurants.map((restaurante) => (
+                        <div className="componentCard" key={restaurante.id}>
+                            <Card 
+                                name={restaurante.nombre}
+                                image={restaurante.img}
+                                desc={restaurante.descripcion}
+                                rating={restaurante.rating}
+                                id={restaurante.id}
+                                latitud={restaurante.ubicacion.latitud}
+                                longitud={restaurante.ubicacion.longitud}
+                            />
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>
