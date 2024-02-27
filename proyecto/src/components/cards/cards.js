@@ -20,7 +20,6 @@ import './cards.css';
 import { Grid } from '@mui/material';
 
 function MyVerticallyCenteredModal(props) {
-    const [menu, setMenu] = useState([])
     const [rating, setRating] = useState([]);
     const ratingValue = props.rating;
     const { id } = useUser();
@@ -34,13 +33,7 @@ function MyVerticallyCenteredModal(props) {
     });
 
     useEffect(() => {
-        fetch("http://localhost:5050/plates?id_restaurante=" + props.id)
-            .then((response) => response.json())
-            .then((data) => setMenu(data));
-    }, [props.id]);
-
-    useEffect(() => {
-        fetch("http://localhost:5050/threeBestRatings?id_restaurante=" + props.id)
+        fetch("http://localhost:5050/rating?id_restaurante=" + props.id)
             .then((response) => response.json())
             .then((data) => setRating(data));
     }, [props.id]);
@@ -128,7 +121,7 @@ function MyVerticallyCenteredModal(props) {
             <Grid container>
                 <Grid item xs={12} sm={5}>
                     <img
-                        src="https://bde04f90fcbcc7b99af9-a4cf3e88ec567f5b6c6819f1d482f77f.ssl.cf1.rackcdn.com/16_773_r_0.jpg?v=1752"
+                        src={props.image}
                         alt="restaurante"
                         style={{ width: "100%", height: "100%", objectFit: "cover" }}
                     />
@@ -137,6 +130,7 @@ function MyVerticallyCenteredModal(props) {
                     <Modal.Header closeButton>
                         <Modal.Title id="contained-modal-title-vcenter">
                             <h1>{props.name}</h1>
+                            <h2>{props.id}</h2>
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -144,19 +138,16 @@ function MyVerticallyCenteredModal(props) {
                             {props.des}
                         </p>
                         <h4>Menú</h4>
-                        {menu.length > 0 ? (
-                            <div className='menu' style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
-                                {menu.map((platillo) => (
-                                    <Card key={platillo._id}>
-                                        <Card.Body>
-                                            {platillo.nombre}
-                                        </Card.Body>
-                                    </Card>
-                                ))}
-                            </div>
-                        ) : (
-                            <p>Menú no disponible...</p>
-                        )}
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: "5px" }}>
+                            {props.menu.map(item => (
+                                <Card key={item.id} >
+                                    <Card.Body>
+                                        {item.nombre} - Q{item.precio.toFixed(2)}
+                                    </Card.Body>
+                                </Card>
+                            ))}
+                        </div>
+
                         <br />
                         <h4>Ubicación</h4>
                         <div style={{ height: "200px" }}>
@@ -276,18 +267,17 @@ function MyVerticallyCenteredModal(props) {
                                         <div className='reseña' >
                                             {rating.map((rating) => (
                                                 <p key={rating._id}>
-                                                    {rating.fecha}
+                                                    {rating.comentarios}
+                                                    <br />
+                                                    Puntuación: {parseInt(rating.puntuacion)}
                                                 </p>
                                             ))}
                                         </div>
                                     ) : (
-                                        <p>Reseñas no disponibles...</p>
+                                        <p style={{ color: "grey" }}>Este restaurante aún no ha recibido reseñas. 
+                                        Explora el exquisito menú y descubre las delicias que ofrece. 
+                                        ¡Tu opinión podría ser la primera en enriquecer la experiencia de otros comensales!</p>
                                     )}
-                                    <p>
-                                        Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                                        dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-                                        consectetur ac, vestibulum at eros.
-                                    </p>
                                 </Accordion.Body>
                             </Accordion.Item>
                         </Accordion>
@@ -352,7 +342,7 @@ function Cards(props) {
                 onMouseLeave={handleMouseLeave}
                 onClick={() => setModalShow(true)}
             >
-                <Card.Img variant="top" src="https://www.guatemala.com/fotos/2021/01/Nuevas-promociones-2x1-de-Trefratelli-en-la-app-de-Cupones-Guatemala.com-1-885x500.jpg" />
+                <Card.Img variant="top" src={props.image} />
                 <Card.Body>
                     <Card.Title style={{ textAlign: "center" }}>
                         <h2>{props.name}</h2>
@@ -367,6 +357,7 @@ function Cards(props) {
                 des={props.desc}
                 rating={props.rating}
                 id={props.id}
+                menu={props.menu}
                 latitud={props.latitud}
                 longitud={props.longitud}
             />
