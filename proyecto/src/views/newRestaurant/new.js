@@ -11,25 +11,28 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import ImageIcon from '@mui/icons-material/Image';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import ShareLocationIcon from '@mui/icons-material/ShareLocation';
+import { useUser } from '../../global/id_rol.js'
 import "./new.css";
 
 function New() {
     const [platillos, setPlatillos] = useState([]);
+    const { id } = useUser();
     const [newRestaurant, setNewRestaurant] = useState({
         nombre: "",
-        descripcion: "",
         img: "",
+        descripcion: "",
+        rating: 0,
         ubicacion: {
             latitud: "",
             longitud: ""
         },
-        menu: []
+        menu: [],
+        idUser: id
     });
 
     const handleSubmit = async (event) => {
-        event.preventDefault();
         try {
-            const response = await fetch('http://tu-api.com/restaurante', {
+            const response = await fetch('http://localhost:5050/restaurant', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -63,9 +66,9 @@ function New() {
             <div className="BodyNew">
                 <div className="formNew">
                     <div className="contentForm">
-                        <Form style={{ width: "85%" }}>
+                        <Form style={{ width: "85%" }} onSubmit={handleSubmit}>
                             <Form.Group className="mb-3" controlId="formGridName">
-                                <TextField fullWidth label="Nombre del restaurante" id="fullWidth" name="nombre"
+                                <TextField fullWidth label="Nombre del restaurante" id="fullWidth" name="nombre" onChange={handleInputChange}
                                     InputProps={{
                                         startAdornment: (
                                             <InputAdornment position="start">
@@ -84,6 +87,7 @@ function New() {
                                     rows={3}
                                     fullWidth
                                     name="descripcion"
+                                    onChange={handleInputChange}
                                     InputProps={{
                                         startAdornment: (
                                             <InputAdornment position="start">
@@ -95,7 +99,7 @@ function New() {
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="formGridImage">
-                                <TextField fullWidth label="Imagen del restaurante" id="fullWidth" name="img"
+                                <TextField fullWidth label="Imagen del restaurante" id="fullWidth" name="img" onChange={handleInputChange}
                                     InputProps={{
                                         startAdornment: (
                                             <InputAdornment position="start">
@@ -113,6 +117,7 @@ function New() {
                                         label="Latitud"
                                         variant="outlined"
                                         name="latitud"
+                                        onChange={handleInputChange}
                                         InputProps={{
                                             startAdornment: (
                                                 <InputAdornment position="start">
@@ -129,6 +134,7 @@ function New() {
                                         label="Longitud"
                                         variant="outlined"
                                         name="longitud"
+                                        onChange={handleInputChange}
                                         InputProps={{
                                             startAdornment: (
                                                 <InputAdornment position="start">
@@ -149,7 +155,10 @@ function New() {
                                     getOptionLabel={(option) => option.title || option}
                                     filterSelectedOptions
                                     name="menu"
-                                    onChange={(event, newValue) => setPlatillos(newValue.map(item => ({ title: item })))}
+                                    onChange={(event, newValue) => {
+                                        handleInputChange(event);
+                                        setPlatillos(newValue.map(item => ({ title: item })));
+                                    }}
                                     InputProps={{
                                         startAdornment: (
                                             <InputAdornment position="start">

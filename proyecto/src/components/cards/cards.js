@@ -56,8 +56,51 @@ function MyVerticallyCenteredModal(props) {
 
     const [reseñaData, setReseñaData] = useState({
         comentario: "",
+        fecha: new Date().toISOString().slice(0, 10),
         calificacion: ""
     });
+
+    const handleSubmitReserva = async (event) => {
+        try {
+            const response = await fetch('http://localhost:5050/reservation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(reservaData),
+            });
+
+            if (response.ok) {
+                console.log('Reservación exitosa');
+                console.log(reservaData);
+            } else {
+                console.error('Error al realizar la reservación');
+            }
+        } catch (error) {
+            console.error('Error al realizar la solicitud:', error);
+        }
+    }
+
+    const handleSubmitReseña = async (event) => {
+        try {
+            const response = await fetch('http://localhost:5050/rating', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(reseñaData),
+            });
+
+            if (response.ok) {
+                console.log('Reseña publicada exitosamente');
+                console.log(reseñaData);
+            } else {
+                console.error('Error al publicar reseña');
+            }
+        } catch (error) {
+            console.error('Error al realizar la solicitud:', error);
+        }
+    }
 
     const handleReservaChange = (event) => {
         const { name, value } = event.target;
@@ -73,48 +116,6 @@ function MyVerticallyCenteredModal(props) {
             ...prevData,
             [name]: value,
         }));
-    }
-
-    const handleSubmitReserva = async (event) => {
-        event.preventDefault();
-        try {
-            const response = await fetch('http://localhost:5050/reservation', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(reservaData),
-            });
-
-            if (response.ok) {
-                console.log('Reservación exitosa');
-            } else {
-                console.error('Error al realizar la reservación');
-            }
-        } catch (error) {
-            console.error('Error al realizar la solicitud:', error);
-        }
-    }
-
-    const handleSubmitReseña = async (event) => {
-        event.preventDefault();
-        try {
-            const response = await fetch('http://localhost:5050/rating', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(reseñaData),
-            });
-
-            if (response.ok) {
-                console.log('Reseña publicada exitosamente');
-            } else {
-                console.error('Error al publicar reseña');
-            }
-        } catch (error) {
-            console.error('Error al realizar la solicitud:', error);
-        }
     }
 
     return (
@@ -185,7 +186,7 @@ function MyVerticallyCenteredModal(props) {
                     <Modal.Footer>
                         {MensajeLogin && (
                             <div>
-                                <p style={{ fontSize: "12px", color: "grey", marginRight: "50px" }}>Para realizar una reserva o publicar una reseña, <br />por favor inicie sesión.</p>
+                                <p style={{ fontSize: "12px", color: "grey", marginRight: "50px", marginTop: "10px" }}>Para realizar una reserva o publicar una reseña, <br />por favor inicie sesión.</p>
                             </div>
                         )}
 
@@ -194,9 +195,9 @@ function MyVerticallyCenteredModal(props) {
                                 <Accordion.Item eventKey="0">
                                     <Accordion.Header>Reserva</Accordion.Header>
                                     <Accordion.Body>
-                                        <Form>
+                                        <Form onSubmit={handleSubmitReserva}>
                                             <Form.Group className="mb-3" controlId="formGridComents">
-                                                <TextField fullWidth label="Nombre" id="fullWidth" name='nombre' />
+                                                <TextField fullWidth label="Nombre" id="fullWidth" name='nombre' onChange={handleReservaChange} />
                                             </Form.Group>
 
                                             <Row className="mb-3">
@@ -206,6 +207,7 @@ function MyVerticallyCenteredModal(props) {
                                                         label="Número de teléfono"
                                                         variant="outlined"
                                                         name='telefono'
+                                                        onChange={handleReservaChange}
                                                         InputProps={{
                                                             startAdornment: <InputAdornment position="start">+502</InputAdornment>
                                                         }}
@@ -217,6 +219,7 @@ function MyVerticallyCenteredModal(props) {
                                                         disablePortal
                                                         id="combo-box-demo"
                                                         name='personas'
+                                                        onChange={handleReservaChange}
                                                         options={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
                                                         renderInput={(params) => <TextField {...params} label="Personas" />}
                                                     />
@@ -230,6 +233,7 @@ function MyVerticallyCenteredModal(props) {
                                                         label="Fecha"
                                                         type="date"
                                                         name='fecha'
+                                                        onChange={handleReservaChange}
                                                         InputLabelProps={{
                                                             shrink: true,
                                                         }}
@@ -242,6 +246,7 @@ function MyVerticallyCenteredModal(props) {
                                                         label="Hora"
                                                         type="time"
                                                         name='hora'
+                                                        onChange={handleReservaChange}
                                                         InputLabelProps={{
                                                             shrink: true,
                                                         }}
@@ -250,7 +255,7 @@ function MyVerticallyCenteredModal(props) {
                                             </Row>
 
                                             <Form.Group className="mb-3" controlId="formGridComents">
-                                                <TextField fullWidth label="Comentarios" id="fullWidth" name='comentarios' />
+                                                <TextField fullWidth label="Comentarios" id="fullWidth" name='comentarios' onChange={handleReservaChange} />
                                             </Form.Group>
 
                                             <Button style={{ height: "54px", width: "100px", background: "white", color: "black", borderColor: "#DEE2E6" }} type="submit">
@@ -292,9 +297,9 @@ function MyVerticallyCenteredModal(props) {
                                 <Accordion.Item eventKey="0">
                                     <Accordion.Header>Publicar reseña</Accordion.Header>
                                     <Accordion.Body>
-                                        <Form>
+                                        <Form onSubmit={handleSubmitReseña}>
                                             <Form.Group className="mb-3" controlId="formGridComents">
-                                                <TextField fullWidth label="Comentario" id="fullWidth" name='comentario' />
+                                                <TextField fullWidth label="Comentario" id="fullWidth" name='comentario' onChange={handleReseñaChange} />
                                             </Form.Group>
 
                                             <Form.Group as={Col} controlId="formGridRating">
@@ -304,6 +309,7 @@ function MyVerticallyCenteredModal(props) {
                                                     name='calificacion'
                                                     sx={{ width: 380 }}
                                                     options={[1, 2, 3, 4, 5]}
+                                                    onChange={handleReseñaChange}
                                                     renderInput={(params) => <TextField {...params} label="Calificación" />}
                                                 />
                                             </Form.Group>
