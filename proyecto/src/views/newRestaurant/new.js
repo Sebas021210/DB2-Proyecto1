@@ -11,25 +11,26 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import ImageIcon from '@mui/icons-material/Image';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import ShareLocationIcon from '@mui/icons-material/ShareLocation';
+import { useUser } from '../../global/id_rol.js'
 import "./new.css";
 
 function New() {
     const [platillos, setPlatillos] = useState([]);
+    const { id } = useUser();
     const [newRestaurant, setNewRestaurant] = useState({
         nombre: "",
-        descripcion: "",
         img: "",
-        ubicacion: {
-            latitud: "",
-            longitud: ""
-        },
-        menu: []
+        descripcion: "",
+        rating: 0,
+        latitud: "",
+        longitud: "",
+        plates: [{"nombre":"Carne asada","precio":120.00},{"nombre":"Pizza Alfredo","precio":95.00},{"nombre":"Pizza Peperonni","precio":90.00},{"nombre":"Coca Cola","precio":21.50},{"nombre":"Agua Pura","precio":16.90}],
+        idUser: id
     });
 
     const handleSubmit = async (event) => {
-        event.preventDefault();
         try {
-            const response = await fetch('http://tu-api.com/restaurante', {
+            const response = await fetch('http://localhost:5050/restaurant', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -39,6 +40,7 @@ function New() {
 
             if (response.ok) {
                 console.log('Restaurante agregado exitosamente');
+                console.log(newRestaurant);
             } else {
                 console.error('Error al agregar restaurante');
             }
@@ -63,9 +65,9 @@ function New() {
             <div className="BodyNew">
                 <div className="formNew">
                     <div className="contentForm">
-                        <Form style={{ width: "85%" }}>
+                        <Form style={{ width: "85%" }} onSubmit={handleSubmit}>
                             <Form.Group className="mb-3" controlId="formGridName">
-                                <TextField fullWidth label="Nombre del restaurante" id="fullWidth" name="nombre"
+                                <TextField fullWidth label="Nombre del restaurante" id="fullWidth" name="nombre" onChange={handleInputChange}
                                     InputProps={{
                                         startAdornment: (
                                             <InputAdornment position="start">
@@ -84,6 +86,7 @@ function New() {
                                     rows={3}
                                     fullWidth
                                     name="descripcion"
+                                    onChange={handleInputChange}
                                     InputProps={{
                                         startAdornment: (
                                             <InputAdornment position="start">
@@ -95,7 +98,7 @@ function New() {
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="formGridImage">
-                                <TextField fullWidth label="Imagen del restaurante" id="fullWidth" name="img"
+                                <TextField fullWidth label="Imagen del restaurante" id="fullWidth" name="img" onChange={handleInputChange}
                                     InputProps={{
                                         startAdornment: (
                                             <InputAdornment position="start">
@@ -113,6 +116,7 @@ function New() {
                                         label="Latitud"
                                         variant="outlined"
                                         name="latitud"
+                                        onChange={handleInputChange}
                                         InputProps={{
                                             startAdornment: (
                                                 <InputAdornment position="start">
@@ -129,6 +133,7 @@ function New() {
                                         label="Longitud"
                                         variant="outlined"
                                         name="longitud"
+                                        onChange={handleInputChange}
                                         InputProps={{
                                             startAdornment: (
                                                 <InputAdornment position="start">
@@ -148,8 +153,9 @@ function New() {
                                     freeSolo
                                     getOptionLabel={(option) => option.title || option}
                                     filterSelectedOptions
-                                    name="menu"
-                                    onChange={(event, newValue) => setPlatillos(newValue.map(item => ({ title: item })))}
+                                    onChange={(event, newValue) => {
+                                        setPlatillos(newValue.map(item => ({ title: item })));
+                                    }}
                                     InputProps={{
                                         startAdornment: (
                                             <InputAdornment position="start">

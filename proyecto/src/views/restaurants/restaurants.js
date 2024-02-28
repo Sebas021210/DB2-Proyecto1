@@ -27,9 +27,10 @@ function Restaurants() {
                                 image={restaurante.img}
                                 desc={restaurante.descripcion}
                                 rating={restaurante.rating}
-                                id={restaurante.id}
+                                id={restaurante._id}
                                 latitud={restaurante.ubicacion.latitud}
                                 longitud={restaurante.ubicacion.longitud}
+                                menu = {restaurante.menu}
                             />
                         </div>
                     ))}
