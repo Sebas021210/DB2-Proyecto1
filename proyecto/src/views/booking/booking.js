@@ -3,6 +3,8 @@ import "./booking.css";
 import Card from 'react-bootstrap/Card';
 import Reservas from "../../components/card-reserva/reservas";
 
+import { Chart } from "../../components/charts/Chart.js";
+
 function Booking() {
     return (
         <div className="Booking">
@@ -48,8 +50,12 @@ function Booking() {
                             tel="12345678"
                             extra="Cumpleaños de mi hijo"
                         />
+
                     </div>
                     {/* Agrega más componentes Reservas según sea necesario */}
+                    <div className="Reservas">
+                        <Chart />
+                    </div>
                 </div>    
             </div>
         </div> 

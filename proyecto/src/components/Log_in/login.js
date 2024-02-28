@@ -119,7 +119,7 @@ function Login() {
         {loggedIn && (
           <Modal.Footer>
 
-            <Chart id={user._id} rol={user.rol} />
+            
             <Button
               variant="primary"
               onClick={handleLogout}
