@@ -46,6 +46,19 @@ function Booking() {
         fetchReservas();
     }, [restaurantes]);
 
+    const handleDeleteReservation = async (reservaId) => {
+        try {
+            await fetch(`http://localhost:5050/reservation?id=${reservaId}`, {
+                method: 'DELETE'
+            });
+            // Eliminar la reserva de la lista de reservas
+            const updatedReservas = reservasData.filter(reserva => reserva._id !== reservaId);
+            setReservasData(updatedReservas);
+        } catch (error) {
+            console.error('Error deleting reservation:', error);
+        }
+    };
+
     return (
         <div className="Booking">
             <div className="Booking-header">
@@ -68,6 +81,7 @@ function Booking() {
                                 time={new Date(reserva.fecha).toLocaleTimeString()}
                                 tel="Teléfono del cliente"
                                 extra={reserva.comentarios}
+                                onDeleteReservation={handleDeleteReservation} // Pasamos la función de eliminación como prop
                             />
                         </div>
                     ))}
