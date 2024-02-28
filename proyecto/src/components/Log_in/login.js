@@ -7,6 +7,8 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { useUser } from '../../global/id_rol.js';
 import NewUser from './newUser.js';
 
+
+
 function Login() {
   const [show, setShow] = useState(false);
   const [showNewUser, setShowNewUser] = useState(false);
@@ -132,6 +134,8 @@ function Login() {
         )}
         {loggedIn && (
           <Modal.Footer>
+
+            
             <Button
               variant="primary"
               onClick={handleLogout}
