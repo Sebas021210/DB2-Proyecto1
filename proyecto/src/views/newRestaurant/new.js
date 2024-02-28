@@ -22,11 +22,9 @@ function New() {
         img: "",
         descripcion: "",
         rating: 0,
-        ubicacion: {
-            latitud: "",
-            longitud: ""
-        },
-        menu: [],
+        latitud: "",
+        longitud: "",
+        plates: [{"nombre":"Carne asada","precio":120.00},{"nombre":"Pizza Alfredo","precio":95.00},{"nombre":"Pizza Peperonni","precio":90.00},{"nombre":"Coca Cola","precio":21.50},{"nombre":"Agua Pura","precio":16.90}],
         idUser: id
     });
 
@@ -42,6 +40,7 @@ function New() {
 
             if (response.ok) {
                 console.log('Restaurante agregado exitosamente');
+                console.log(newRestaurant);
             } else {
                 console.error('Error al agregar restaurante');
             }
@@ -154,9 +153,7 @@ function New() {
                                     freeSolo
                                     getOptionLabel={(option) => option.title || option}
                                     filterSelectedOptions
-                                    name="menu"
                                     onChange={(event, newValue) => {
-                                        handleInputChange(event);
                                         setPlatillos(newValue.map(item => ({ title: item })));
                                     }}
                                     InputProps={{

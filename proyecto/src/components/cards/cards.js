@@ -10,7 +10,6 @@ import Rating from '@mui/material/Rating';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
-import Autocomplete from '@mui/material/Autocomplete';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import { Icon } from 'leaflet';
@@ -39,21 +38,23 @@ function MyVerticallyCenteredModal(props) {
     }, [props.id]);
 
     const [reservaData, setReservaData] = useState({
-        nombre: "",
-        telefono: "",
-        personas: "",
-        fecha: "",
-        hora: "",
+        id_restaurante: props.id,
+        id_usuario: id,
+        fecha: new Date().toISOString().slice(0, 10),
+        cantidad_personas: "",
         comentarios: ""
     });
 
     const [reseñaData, setReseñaData] = useState({
-        comentario: "",
+        id_restaurante: props.id,
+        id_usuario: id,
         fecha: new Date().toISOString().slice(0, 10),
-        calificacion: ""
+        puntuacion: "",
+        comentarios: ""
     });
 
     const handleSubmitReserva = async (event) => {
+        event.preventDefault();
         try {
             const response = await fetch('http://localhost:5050/reservation', {
                 method: 'POST',
@@ -75,6 +76,7 @@ function MyVerticallyCenteredModal(props) {
     }
 
     const handleSubmitReseña = async (event) => {
+        event.preventDefault();
         try {
             const response = await fetch('http://localhost:5050/rating', {
                 method: 'POST',
@@ -130,7 +132,6 @@ function MyVerticallyCenteredModal(props) {
                     <Modal.Header closeButton>
                         <Modal.Title id="contained-modal-title-vcenter">
                             <h1>{props.name}</h1>
-                            <h2>{props.id}</h2>
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
@@ -188,7 +189,7 @@ function MyVerticallyCenteredModal(props) {
                                     <Accordion.Body>
                                         <Form onSubmit={handleSubmitReserva}>
                                             <Form.Group className="mb-3" controlId="formGridComents">
-                                                <TextField fullWidth label="Nombre" id="fullWidth" name='nombre' onChange={handleReservaChange} />
+                                                <TextField fullWidth label="Nombre" id="fullWidth" />
                                             </Form.Group>
 
                                             <Row className="mb-3">
@@ -197,8 +198,6 @@ function MyVerticallyCenteredModal(props) {
                                                         id="outlined-basic"
                                                         label="Número de teléfono"
                                                         variant="outlined"
-                                                        name='telefono'
-                                                        onChange={handleReservaChange}
                                                         InputProps={{
                                                             startAdornment: <InputAdornment position="start">+502</InputAdornment>
                                                         }}
@@ -206,13 +205,12 @@ function MyVerticallyCenteredModal(props) {
                                                 </Form.Group>
 
                                                 <Form.Group as={Col} controlId="formGridPersons">
-                                                    <Autocomplete
-                                                        disablePortal
-                                                        id="combo-box-demo"
-                                                        name='personas'
+                                                    <TextField
+                                                        id="outlined-basic"
+                                                        label="Número de personas"
+                                                        variant="outlined"
+                                                        name='cantidad_personas'
                                                         onChange={handleReservaChange}
-                                                        options={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
-                                                        renderInput={(params) => <TextField {...params} label="Personas" />}
                                                     />
                                                 </Form.Group>
                                             </Row>
@@ -223,8 +221,6 @@ function MyVerticallyCenteredModal(props) {
                                                         id="date"
                                                         label="Fecha"
                                                         type="date"
-                                                        name='fecha'
-                                                        onChange={handleReservaChange}
                                                         InputLabelProps={{
                                                             shrink: true,
                                                         }}
@@ -236,8 +232,6 @@ function MyVerticallyCenteredModal(props) {
                                                         id="time"
                                                         label="Hora"
                                                         type="time"
-                                                        name='hora'
-                                                        onChange={handleReservaChange}
                                                         InputLabelProps={{
                                                             shrink: true,
                                                         }}
@@ -274,9 +268,9 @@ function MyVerticallyCenteredModal(props) {
                                             ))}
                                         </div>
                                     ) : (
-                                        <p style={{ color: "grey" }}>Este restaurante aún no ha recibido reseñas. 
-                                        Explora el exquisito menú y descubre las delicias que ofrece. 
-                                        ¡Tu opinión podría ser la primera en enriquecer la experiencia de otros comensales!</p>
+                                        <p style={{ color: "grey" }}>Este restaurante aún no ha recibido reseñas.
+                                            Explora el exquisito menú y descubre las delicias que ofrece.
+                                            ¡Tu opinión podría ser la primera en enriquecer la experiencia de otros comensales!</p>
                                     )}
                                 </Accordion.Body>
                             </Accordion.Item>
@@ -289,19 +283,11 @@ function MyVerticallyCenteredModal(props) {
                                     <Accordion.Body>
                                         <Form onSubmit={handleSubmitReseña}>
                                             <Form.Group className="mb-3" controlId="formGridComents">
-                                                <TextField fullWidth label="Comentario" id="fullWidth" name='comentario' onChange={handleReseñaChange} />
+                                                <TextField sx={{ width: 380 }} fullWidth label="Comentario" id="fullWidth" name='comentarios' onChange={handleReseñaChange} />
                                             </Form.Group>
 
-                                            <Form.Group as={Col} controlId="formGridRating">
-                                                <Autocomplete
-                                                    disablePortal
-                                                    id="combo-box-demo"
-                                                    name='calificacion'
-                                                    sx={{ width: 380 }}
-                                                    options={[1, 2, 3, 4, 5]}
-                                                    onChange={handleReseñaChange}
-                                                    renderInput={(params) => <TextField {...params} label="Calificación" />}
-                                                />
+                                            <Form.Group className="mb-3" controlId="formGridRating">
+                                                <TextField fullWidth label="Puntuacion" id="fullWidth" name='puntuacion' onChange={handleReseñaChange} />
                                             </Form.Group>
 
                                             <br />
