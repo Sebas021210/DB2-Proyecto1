@@ -6,7 +6,7 @@ import { AiOutlineUser } from "react-icons/ai";
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { useUser } from '../../global/id_rol.js';
 
-import { Chart } from "../charts/Chart.js";
+
 
 function Login() {
   const [show, setShow] = useState(false);

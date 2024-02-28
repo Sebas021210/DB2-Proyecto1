@@ -71,4 +71,4 @@ export function Chart() {
   return (
     <div id='dashboard'></div>
   );
-}
+}export default Chart;  

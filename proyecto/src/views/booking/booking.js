@@ -2,8 +2,8 @@ import React from "react";
 import "./booking.css";
 import Card from 'react-bootstrap/Card';
 import Reservas from "../../components/card-reserva/reservas";
-
-import { Chart } from "../../components/charts/Chart.js";
+import Chart  from "../../components/charts/Chart.js";
+import { borderRadius } from "@mui/system";
 
 function Booking() {
     return (
@@ -53,8 +53,8 @@ function Booking() {
 
                     </div>
                     {/* Agrega más componentes Reservas según sea necesario */}
-                    <div className="Reservas">
-                        <Chart />
+                    <div className="Aggregate">
+                    
                     </div>
                 </div>    
             </div>
