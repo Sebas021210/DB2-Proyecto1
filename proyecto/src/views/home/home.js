@@ -44,11 +44,11 @@ function Home() {
                 {rol === 0 && (
                     <>
                         <button onClick={handleNew}>Nuevo Restaurante</button>
-                        <button onClick={handleBooking}>Reservas</button>
+                        <button onClick={handleBooking}>Reservas y más</button>
                     </>
                 )}
                 {rol === 1 && (
-                    <button onClick={handleBooking}>Reservas</button>
+                    <button onClick={handleBooking}>Reservas y más</button>
                 )}
                 {rol === 2 && null}
                 <button onClick={handleRestaurant}>Todos los restaurantes</button>

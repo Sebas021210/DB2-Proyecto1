@@ -3,8 +3,34 @@ import "./booking.css";
 import Card from 'react-bootstrap/Card';
 import Reservas from "../../components/card-reserva/reservas";
 import { useUser } from "../../global/id_rol";
-import Chart  from "../../components/charts/Chart.js";
-import { borderRadius } from "@mui/system";
+import { styled } from '@mui/material/styles';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+    },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+        border: 0,
+    },
+}));
 
 function Booking() {
     const { restaurantes, id } = useUser();
@@ -51,7 +77,7 @@ function Booking() {
 
         fetchReservas();
     }, [restaurantes]);
-  
+
     useEffect(() => {
         fetch("http://localhost:5050/mostAndLessExpensive")
             .then((response) => response.json())
@@ -110,85 +136,82 @@ function Booking() {
                             />
                         </div>
                     ))}
-                    
-                    <div className="Reservas">
-                        <Reservas
-                            Nombre="Manuel Rodas"
-                            Cantidad_P="8"
-                            No_reserva="986578"
-                            date="10-04-2023"
-                            time="12:24 pm"
-                            tel="12345678"
-                            extra="Cumpleaños de mi hijo"
-                        />
-                    </div>
-                    <div className="Reservas">
-                        <Reservas
-                            Nombre="Manuel Rodas"
-                            Cantidad_P="8"
-                            No_reserva="986578"
-                            date="10-04-2023"
-                            time="12:24 pm"
-                            tel="12345678"
-                            extra="Cumpleaños de mi hijo"
-                        />
-                    </div>
-                    <div className="Reservas">
-                        <Reservas
-                            Nombre="Manuel Rodas"
-                            Cantidad_P="8"
-                            No_reserva="986578"
-                            date="10-04-2023"
-                            time="12:24 pm"
-                            tel="12345678"
-                            extra="Cumpleaños de mi hijo"
-                        />
 
-                    </div>
+                    <br />
+
                     <div className="Aggregate">
+                        <TableContainer sx={{ maxWidth: 1000 }} component={Paper}>
+                            <Table sx={{ maxWidth: 1000 }} aria-label="customized table">
+                                <TableHead>
+                                    <TableRow>
+                                        <StyledTableCell>Restaurante</StyledTableCell>
+                                        <StyledTableCell >Plato más caro</StyledTableCell>
+                                        <StyledTableCell >Plato más barato</StyledTableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {expensive.map((expensive) => (
+                                        <StyledTableRow key={expensive.nombre}>
+                                            <StyledTableCell component="th">
+                                                {expensive.nombre}
+                                            </StyledTableCell>
+                                            <StyledTableCell >{expensive.platoMasCaro}</StyledTableCell>
+                                            <StyledTableCell >{expensive.platoMasBarato} </StyledTableCell>
+                                        </StyledTableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
 
-                        <table>
-                            <tr>
-                                <th>Restaurante</th>
-                                <th>Plato mas caro</th>
-                                <th>Plato mas barato</th>
-                            </tr>
-                            {expensive.map((expensive) => (
-                                <tr>
-                                    <td>{expensive.nombre}</td>
-                                    <td>{expensive.platoMasCaro}</td>
-                                    <td>{expensive.platoMasBarato}</td>
-                                </tr>
-                            ))}
-                        </table>
-                        <br/>
-                        <table>
-                            <tr>
-                                <th>Restaurante</th>
-                                <th>Cantidad de reservas</th>
-                            </tr>
-                            {top10Frecuently.map((top10Frecuently) => (
-                                <tr>
-                                    <td>{top10Frecuently.nombre}</td>
-                                    <td>{top10Frecuently.reservas}</td>
-                                </tr>
-                            ))}
-                        </table>
-                        <br/>
-                        <table>
-                            <tr>
-                                <th>Restaurante</th>
-                                <th>Rating</th>
-                            </tr>
-                            {top10Rating.map((top10Rating) => (
-                                <tr>
-                                    <td>{top10Rating.nombre}</td>
-                                    <td>{top10Rating.rating}</td>
-                                </tr>
-                            ))}
-                        </table>
+                        <br />
 
-                        <iframe style={{background: "#F1F5F4",border: "none",borderRadius: "2px",boxShadow: "0 2px 10px 0 rgba(70, 76, 79, .2)",width: "100vw",height: "100vh"} } src="https://charts.mongodb.com/charts-project-0-zgxqe/embed/dashboards?id=fd2c9b41-af67-4135-9dcb-319969a58c29&theme=light&autoRefresh=true&maxDataAge=3600&showTitleAndDesc=false&scalingWidth=fixed&scalingHeight=fixed"></iframe>
+                        <TableContainer sx={{ maxWidth: 1000 }} component={Paper}>
+                            <Table sx={{ maxWidth: 1000 }} aria-label="customized table">
+                                <TableHead>
+                                    <TableRow>
+                                        <StyledTableCell>Restaurante</StyledTableCell>
+                                        <StyledTableCell >Cantidad de reservas</StyledTableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {top10Frecuently.map((top10Frecuently) => (
+                                        <StyledTableRow key={top10Frecuently.nombre}>
+                                            <StyledTableCell component="th">
+                                                {top10Frecuently.nombre}
+                                            </StyledTableCell>
+                                            <StyledTableCell >{top10Frecuently.reservas}</StyledTableCell>
+                                        </StyledTableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+
+                        <br />
+
+                        <TableContainer sx={{ maxWidth: 1000 }} component={Paper}>
+                            <Table sx={{ maxWidth: 1000 }} aria-label="customized table">
+                                <TableHead>
+                                    <TableRow>
+                                        <StyledTableCell>Restaurante</StyledTableCell>
+                                        <StyledTableCell>Rating</StyledTableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {top10Rating.map((top10Rating) => (
+                                        <StyledTableRow key={top10Rating.nombre}>
+                                            <StyledTableCell component="th">
+                                                {top10Rating.nombre}
+                                            </StyledTableCell>
+                                            <StyledTableCell >{top10Rating.rating}</StyledTableCell>
+                                        </StyledTableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+
+                        <br />
+
+                        <iframe style={{ background: "#F1F5F4", border: "none", borderRadius: "2px", boxShadow: "0 2px 10px 0 rgba(70, 76, 79, .2)", width: "100vw", height: "100vh" }} src="https://charts.mongodb.com/charts-project-0-zgxqe/embed/dashboards?id=fd2c9b41-af67-4135-9dcb-319969a58c29&theme=light&autoRefresh=true&maxDataAge=3600&showTitleAndDesc=false&scalingWidth=fixed&scalingHeight=fixed"></iframe>
                     </div>
                 </div>
             </div>
