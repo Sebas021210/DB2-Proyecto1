@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./home.css";
 import Login from "../../components/Log_in/login";
@@ -6,7 +6,15 @@ import { useUser } from "../../global/id_rol";
 
 function Home() {
     const navigate = useNavigate();
-    const { id, rol } = useUser(); // Obtén id y rol desde el contexto global
+    const { id, rol, restaurantes } = useUser(); // Obtén id y rol desde el contexto global
+
+    // Imprimir el ID y el rol en la consola cuando el componente se monta
+    useEffect(() => {
+        console.log('ID:', id);
+        console.log('Rol:', rol);
+        console.log('Restaurantes:', restaurantes);
+    }, [id, rol, restaurantes]);
+    
 
     const handleBooking = () => {
         navigate("/booking");
